@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mood Music Player - Final</title>
   <style>
-    /* 1. 디자인 (CSS) */
     :root {
       --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-hover: rgba(255, 255, 255, 1);
@@ -29,7 +28,6 @@
       position: relative;
     }
 
-    /* 어두운 오버레이 */
     body::before {
       content: "";
       position: fixed;
@@ -123,13 +121,10 @@
   </div>
 
   <script>
-    /* 2. 기능 (JS) */
-
     // 랜덤 배경 이미지 변경
     function updateBg() {
       const seed = Math.floor(Math.random() * 10000);
       const imageUrl = `https://picsum.photos/seed/${seed}/1920/1080`;
-      
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
@@ -137,25 +132,22 @@
       };
     }
 
-    // 초기 배경 로드
     window.onload = updateBg;
 
-    // 음악 재생 (플레이리스트 ID 방식 - 오류 최소화)
+    // 음악 재생
     function playMusic(genre) {
-      updateBg(); // 클릭 시 배경 변경
+      updateBg();
 
-      // 퍼가기 허용이 확인된 대형 플레이리스트 ID들
       const playlistIds = {
-        'JAZZ': 'PL8F6B297380E99BA0',      // Coffee Shop Jazz
-        'FUNK': 'PLm_mS_vN9xH3n9f8v8xN8pX0jM8O8u7Y_', // Funk & Soul Classics
-        'DISCO': 'PLe4f9AbaD4y3nS_8ID_mY_LpSTyX_mNis', // Disco 70s 80s Mix
-        'CHRISTMAS': 'PL_YidvXp_QvD0D_y6_Wv6L_Mh_O4m5N_s' // Christmas Classics
+        'JAZZ': 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI',        // Coffee Jazz
+        'FUNK': 'PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj',       // Funk & Soul
+        'DISCO': 'PLMC9KNkIncKtG8zb7eJ2VJ2G5Y2S6Y38X',      // Disco 70s 80s
+        'CHRISTMAS': 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI'  // Christmas (재사용 예시)
       };
 
       const listId = playlistIds[genre];
       const playerDiv = document.getElementById('player');
 
-      // 유튜브 공식 임베드 URL (검색 방식이 아닌 리스트 아이디 직접 연결)
       playerDiv.innerHTML = `
         <iframe 
           src="https://www.youtube.com/embed/videoseries?list=${listId}&autoplay=1&rel=0" 
@@ -165,5 +157,6 @@
       `;
     }
   </script>
+
 </body>
 </html>
