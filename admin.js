@@ -1,12 +1,13 @@
-const genreSelect = document.getElementById('genre');
 const videoUrlInput = document.getElementById('videoUrl');
 const videoTitleInput = document.getElementById('videoTitle');
+const genreSelect = document.getElementById('genre');
 const addButton = document.getElementById('addVideo');
 const videoListDiv = document.getElementById('videoList');
+const goViewerBtn = document.getElementById('goViewer');
 
 const STORAGE_KEYS = {
-  minimal: 'videos_minimal',
-  jazzy: 'videos_jazzy'
+  jazzy: 'videos_jazzy',
+  minimal: 'videos_minimal'
 };
 
 function getVideos(genre) {
@@ -45,7 +46,7 @@ function renderList() {
   });
 }
 
-// 영상 등록
+// Add Video
 addButton.addEventListener('click', () => {
   const url = videoUrlInput.value.trim();
   const title = videoTitleInput.value.trim() || "Untitled";
@@ -57,16 +58,16 @@ addButton.addEventListener('click', () => {
   videos.push({ id: videoId, title: title });
   saveVideos(genre, videos);
   renderList();
+
   videoUrlInput.value = '';
   videoTitleInput.value = '';
 });
 
-// 장르 변경
+// 장르 변경 시 리스트 렌더
 genreSelect.addEventListener('change', renderList);
 renderList();
 
-// Viewer Page 이동
-const goViewerBtn = document.getElementById('goViewer');
+// Viewer 페이지 이동
 goViewerBtn.addEventListener('click', () => {
   window.location.href = 'viewer.html';
 });

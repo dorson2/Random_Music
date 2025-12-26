@@ -53,11 +53,26 @@ iframe {
   background: #333;
 }
 
+.genre-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.genreBtn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+}
+
 .navBtn {
   margin-top: 20px;
   padding: 10px 20px;
   border-radius: 6px;
-  background-color: #444;
+  background-color: #666;
   color: white;
   cursor: pointer;
 }

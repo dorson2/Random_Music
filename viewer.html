@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewer Page - Video Playlist</title>
+  <title>Viewer Page</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Viewer Page</h1>
 
-  <label for="genre">Select Genre:</label>
-  <select id="genre">
-    <option value="minimal">Minimal Techno</option>
-    <option value="jazzy">Deep/Jazzy House</option>
-  </select>
+  <div class="genre-buttons">
+    <button id="btnJazzy" class="genreBtn">Deep/Jazzy House</button>
+    <button id="btnMinimal" class="genreBtn">Minimal Techno</button>
+  </div>
 
   <div id="player">
     <div class="placeholder">Select a video to play</div>
@@ -21,7 +20,6 @@
 
   <div id="playlist"></div>
 
-  <!-- Admin Page 이동 버튼 -->
   <button id="goAdmin" class="navBtn">Admin Page</button>
 
   <script src="viewer.js"></script>
