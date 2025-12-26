@@ -7,52 +7,6 @@ body {
   text-align: center;
 }
 
-input, select, button {
-  margin: 5px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-#player {
-  width: 100%;
-  max-width: 700px;
-  aspect-ratio: 16/9;
-  margin: 20px auto;
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-#playlist, #videoList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
-  max-width: 900px;
-  margin: 20px auto;
-}
-
-#playlist button, #videoList div {
-  background: #222;
-  border-radius: 12px;
-  padding: 10px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-  word-wrap: break-word;
-}
-
-#playlist button:hover, #videoList div:hover {
-  transform: translateY(-5px);
-  background: #333;
-}
-
 .genre-buttons {
   display: flex;
   justify-content: center;
@@ -68,6 +22,54 @@ iframe {
   cursor: pointer;
 }
 
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* 중앙 플레이어 */
+#player {
+  flex: 0 0 600px;
+  max-width: 600px;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* iframe */
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 오른쪽 재생 리스트 */
+.playlist {
+  flex: 0 0 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.playlist button {
+  background: #222;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  text-align: left;
+}
+
+.playlist button:hover {
+  transform: translateY(-3px);
+  background: #333;
+}
+
+/* Admin 이동 버튼 */
 .navBtn {
   margin-top: 20px;
   padding: 10px 20px;
