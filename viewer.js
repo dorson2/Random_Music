@@ -37,8 +37,13 @@ function renderPlaylist() {
 genreSelect.addEventListener('change', renderPlaylist);
 renderPlaylist();
 
-// Viewer → Admin 이동
+// Viewer → Admin 이동 (비밀번호 팝업)
 const goAdminBtn = document.getElementById('goAdmin');
 goAdminBtn.addEventListener('click', () => {
-  window.location.href = 'admin.html';
+  const password = prompt("관리자 비밀번호를 입력하세요:");
+  if(password === "JINWOO") {
+    window.location.href = 'admin.html';
+  } else if(password !== null) {
+    alert("비밀번호가 올바르지 않습니다!");
+  }
 });

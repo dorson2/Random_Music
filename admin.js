@@ -45,7 +45,7 @@ function renderList() {
 
   videos.forEach((v, i) => {
     const div = document.createElement('div');
-    div.textContent = v.title || v.id;
+    div.textContent = v.title || `Video ${i+1}`;
 
     const delBtn = document.createElement('button');
     delBtn.textContent = 'Delete';
