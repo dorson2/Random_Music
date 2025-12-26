@@ -1,22 +1,6 @@
-const PASSWORD = 'jinwookim';
-
-const loginDiv = document.getElementById('loginDiv');
-const adminContent = document.getElementById('adminContent');
-const loginBtn = document.getElementById('loginBtn');
-const adminPass = document.getElementById('adminPass');
-
-loginBtn.addEventListener('click', () => {
-  if(adminPass.value === PASSWORD){
-    loginDiv.style.display = 'none';
-    adminContent.style.display = 'block';
-    renderList();
-  } else {
-    alert('Incorrect password');
-  }
-});
-
 const genreSelect = document.getElementById('genre');
 const videoUrlInput = document.getElementById('videoUrl');
+const videoTitleInput = document.getElementById('videoTitle');
 const addButton = document.getElementById('addVideo');
 const videoListDiv = document.getElementById('videoList');
 
@@ -49,7 +33,7 @@ function renderList() {
 
     const delBtn = document.createElement('button');
     delBtn.textContent = 'Delete';
-    delBtn.style.marginLeft = '10px';
+    delBtn.style.marginTop = '5px';
     delBtn.addEventListener('click', () => {
       videos.splice(i,1);
       saveVideos(genre, videos);
@@ -64,21 +48,24 @@ function renderList() {
 // 영상 등록
 addButton.addEventListener('click', () => {
   const url = videoUrlInput.value.trim();
+  const title = videoTitleInput.value.trim() || "Untitled";
   const videoId = extractVideoId(url);
   if (!videoId) return alert('올바른 YouTube URL을 입력하세요');
 
   const genre = genreSelect.value;
   const videos = getVideos(genre);
-  videos.push({ id: videoId, title: '' });
+  videos.push({ id: videoId, title: title });
   saveVideos(genre, videos);
   renderList();
   videoUrlInput.value = '';
+  videoTitleInput.value = '';
 });
 
 // 장르 변경
 genreSelect.addEventListener('change', renderList);
+renderList();
 
-// Admin → Viewer 이동
+// Viewer Page 이동
 const goViewerBtn = document.getElementById('goViewer');
 goViewerBtn.addEventListener('click', () => {
   window.location.href = 'viewer.html';

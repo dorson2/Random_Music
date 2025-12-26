@@ -32,16 +32,25 @@ iframe {
 }
 
 #playlist, #videoList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-width: 700px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  max-width: 900px;
+  margin: 20px auto;
 }
 
-#videoList div {
-  margin: 5px 0;
+#playlist button, #videoList div {
+  background: #222;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  word-wrap: break-word;
+}
+
+#playlist button:hover, #videoList div:hover {
+  transform: translateY(-5px);
+  background: #333;
 }
 
 .navBtn {

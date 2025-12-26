@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Video Manager</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Admin Panel</h1>
 
-  <div id="adminContent" style="display:none;">
-    <label for="genre">Genre:</label>
-    <select id="genre">
-      <option value="minimal">Minimal Techno</option>
-      <option value="jazzy">Deep/Jazzy House</option>
-    </select>
+  <label for="genre">Genre:</label>
+  <select id="genre">
+    <option value="minimal">Minimal Techno</option>
+    <option value="jazzy">Deep/Jazzy House</option>
+  </select>
 
-    <input type="text" id="videoUrl" placeholder="YouTube Video URL">
-    <button id="addVideo">Add Video</button>
+  <input type="text" id="videoUrl" placeholder="YouTube Video URL">
+  <input type="text" id="videoTitle" placeholder="Video Title">
+  <button id="addVideo">Add Video</button>
 
-    <h2>Stored Videos</h2>
-    <div id="videoList"></div>
+  <h2>Stored Videos</h2>
+  <div id="videoList" class="grid-container"></div>
 
-    <!-- Viewer Page 이동 버튼 -->
-    <button id="goViewer" class="navBtn">Viewer Page</button>
-  </div>
+  <button id="goViewer" class="navBtn">Viewer Page</button>
 
   <script src="admin.js"></script>
 </body>

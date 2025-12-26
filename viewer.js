@@ -33,17 +33,11 @@ function renderPlaylist() {
   if (videos[0]) loadVideo(videos[0].id);
 }
 
-// 장르 변경 시 갱신
 genreSelect.addEventListener('change', renderPlaylist);
 renderPlaylist();
 
-// Viewer → Admin 이동 (비밀번호 팝업)
+// Admin Page 바로 이동
 const goAdminBtn = document.getElementById('goAdmin');
 goAdminBtn.addEventListener('click', () => {
-  const password = prompt("관리자 비밀번호를 입력하세요:");
-  if(password === "JINWOO") {
-    window.location.href = 'admin.html';
-  } else if(password !== null) {
-    alert("비밀번호가 올바르지 않습니다!");
-  }
+  window.location.href = 'admin.html';
 });
