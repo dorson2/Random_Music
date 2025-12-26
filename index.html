@@ -3,86 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Essential Mood Music</title>
+  <title>Essential Mood Player</title>
   <style>
-    /* 디자인: 깔끔한 글래스모피즘 스타일 */
+    /* 1. 디자인 (CSS) */
     body {
-      margin: 0; padding: 20px; min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background-color: #1a1a1a; color: white; text-align: center;
-      background-size: cover; background-position: center;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      color: white;
+      background-color: #111;
+      background-size: cover;
+      background-position: center;
       transition: background-image 1s ease-in-out;
-      position: relative; font-family: -apple-system, sans-serif;
+      position: relative;
     }
+
     body::before {
-      content: ""; position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.45); z-index: 1;
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 하여 텍스트 강조 */
+      z-index: 1;
     }
-    h1, .buttons, #player-container { position: relative; z-index: 10; }
 
-    h1 { font-size: 2.2rem; margin-bottom: 30px; letter-spacing: -1px; }
+    h1, .buttons, #player-container {
+      position: relative;
+      z-index: 10;
+    }
 
-    .buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 40px; }
-    
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
     button {
-      padding: 15px 30px; border-radius: 25px; border: none;
-      cursor: pointer; font-weight: bold; font-size: 1rem;
-      background: rgba(255, 255, 255, 0.9); color: #111;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 16px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #111;
+      cursor: pointer;
+      transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
-    button:hover { transform: translateY(-3px) scale(1.05); background: #fff; }
+
+    button:hover {
+      transform: translateY(-5px);
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
 
     #player-container {
-      width: 100%; max-width: 640px; aspect-ratio: 16/9;
-      background: #000; border-radius: 30px; overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+      width: 100%;
+      max-width: 640px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
     }
-    iframe { width: 100%; height: 100%; border: none; }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .info {
+      padding-top: 20%;
+      color: #777;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Playlist for you🎶</h1>
+  <h1>Essential Mood Music🎶</h1>
 
   <div class="buttons">
-    <button onclick="playMusic('JAZZ')">🎷 Jazz Mood</button>
-    <button onclick="playMusic('PIANO')">🎹 Piano Mood</button>
-    <button onclick="playMusic('LOFI')">☕ Lofi Mood</button>
-    <button onclick="playMusic('STUDY')">📖 Study Mood</button>
+    <button onclick="playMusic(0)">🎵 Track 1</button>
+    <button onclick="playMusic(2)">🎵 Track 2</button>
+    <button onclick="playMusic(4)">🎵 Track 3</button>
+    <button onclick="playMusic(6)">🎵 Track 4</button>
   </div>
 
   <div id="player-container">
-    <div style="padding-top: 20%; color: #888;">원하는 무드를 선택하세요.</div>
+    <div class="info">버튼을 눌러 음악을 시작하세요</div>
   </div>
 
   <script>
-    // 배경 이미지 변경 함수
-    function setBg() {
-      const seed = Math.floor(Math.random() * 50000);
-      document.body.style.backgroundImage = `url('https://picsum.photos/seed/${seed}/1920/1080')`;
+    // 2. 기능 (JavaScript)
+
+    // 랜덤 배경 이미지 변경 함수
+    function changeBg() {
+      const seed = Math.floor(Math.random() * 10000);
+      const url = `https://picsum.photos/seed/${seed}/1920/1080`;
+      
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        document.body.style.backgroundImage = `url('${url}')`;
+      };
     }
-    window.onload = setBg;
+
+    // 페이지 로드 시 배경 초기화
+    window.onload = changeBg;
 
     // 음악 재생 함수
-    function playMusic(mood) {
-      setBg();
-      const container = document.getElementById('player-container');
+    function playMusic(index) {
+      changeBg(); // 클릭할 때마다 배경 변경
       
-      /**
-       * 알려주신 플레이리스트(PLwOTNSbCnP6szXsSSDaqS9fjkkmonx7G4) 기반 설정
-       * 유튜브 정책상 플레이리스트 자체를 임베드하는 것이 가장 안전합니다.
-       */
+      // 요청하신 플레이리스트 ID
       const playlistId = "PLwOTNSbCnP6szXsSSDaqS9fjkkmonx7G4";
-      
-      // index 파라미터를 조절하여 리스트 내의 다른 곡들이 먼저 나오도록 유도할 수 있습니다.
-      let index = 0;
-      if (mood === 'PIANO') index = 5;
-      if (mood === 'LOFI') index = 12;
-      if (mood === 'STUDY') index = 20;
+      const playerContainer = document.getElementById('player-container');
 
-      // 해당 채널의 리스트를 직접 재생 (가장 안정적)
-      container.innerHTML = `
+      // 유튜브 임베드: videoseries 주소를 사용하여 플레이리스트 통째로 로드
+      // index 파라미터는 리스트 내의 몇 번째 곡부터 재생할지 결정합니다.
+      playerContainer.innerHTML = `
         <iframe 
           src="https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}&autoplay=1" 
           allow="autoplay; encrypted-media" 
