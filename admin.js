@@ -1,61 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
   const STORAGE_KEYS = { jazzy: 'videos_jazzy', minimal: 'videos_minimal' };
-
   const videoIdInput = document.getElementById('videoId');
   const videoTitleInput = document.getElementById('videoTitle');
   const videoGenreSelect = document.getElementById('videoGenre');
-  const addVideoBtn = document.getElementById('addVideoBtn');
-  const goViewerBtn = document.getElementById('goViewerBtn');
   const videoListDiv = document.getElementById('videoList');
 
-  function getVideos(genre) {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
-  }
+  // 영상 저장 함수
+  window.addVideo = function() {
+    const id = videoIdInput.value.trim();
+    const title = videoTitleInput.value.trim();
+    const genre = videoGenreSelect.value;
 
-  function saveVideos(genre, videos) {
+    if (!id || !title) return alert("내용을 모두 입력하세요.");
+
+    const videos = JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
+    videos.push({ id, title });
     localStorage.setItem(STORAGE_KEYS[genre], JSON.stringify(videos));
-  }
 
-  function renderVideoList() {
+    renderAdminList();
+    videoIdInput.value = '';
+    videoTitleInput.value = '';
+  };
+
+  // 관리 리스트 출력 (클릭 시 삭제)
+  function renderAdminList() {
     videoListDiv.innerHTML = '';
-    Object.keys(STORAGE_KEYS).forEach((genre) => {
-      const videos = getVideos(genre);
+    ['jazzy', 'minimal'].forEach(genre => {
+      const videos = JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
       videos.forEach((v, index) => {
         const btn = document.createElement('button');
-        btn.textContent = `[${genre}] ${v.title}`;
-        btn.addEventListener('click', () => {
-          // 삭제
+        btn.textContent = `[${genre}] ${v.title} (삭제)`;
+        btn.onclick = () => {
           videos.splice(index, 1);
-          saveVideos(genre, videos);
-          renderVideoList();
-        });
+          localStorage.setItem(STORAGE_KEYS[genre], JSON.stringify(videos));
+          renderAdminList();
+        };
         videoListDiv.appendChild(btn);
       });
     });
   }
 
-  addVideoBtn.addEventListener('click', () => {
-    const id = videoIdInput.value.trim();
-    const title = videoTitleInput.value.trim();
-    const genre = videoGenreSelect.value;
-
-    if (!id || !title) {
-      alert('Video ID와 Title을 모두 입력하세요.');
-      return;
-    }
-
-    const videos = getVideos(genre);
-    videos.push({ id, title });
-    saveVideos(genre, videos);
-
-    videoIdInput.value = '';
-    videoTitleInput.value = '';
-    renderVideoList();
-  });
-
-  goViewerBtn.addEventListener('click', () => {
-    window.location.href = 'viewer.html';
-  });
-
-  renderVideoList();
+  renderAdminList();
 });
