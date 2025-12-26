@@ -1,4 +1,24 @@
-/* 영상 플레이어 박스 설정 */
+/* 전체 레이아웃 (PC 기준) */
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 상단 기준 정렬 */
+  gap: 25px;               /* 영상과 리스트 사이 간격 */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 왼쪽 영상 섹션 */
+.video-section {
+  flex: 1.8;               /* 플레이리스트보다 조금 더 넓게 */
+  max-width: 800px;        /* 영상이 너무 커지지 않도록 제한 */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 플레이어 박스 및 중앙 정렬 */
 #player {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -7,17 +27,43 @@
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   
-  /* --- 여기서부터 중앙 정렬 핵심 코드 --- */
-  display: flex;             /* 내부 요소를 유연하게 배치 */
-  justify-content: center;    /* 가로 중앙 정렬 */
-  align-items: center;        /* 세로 중앙 정렬 */
-  color: #555;               /* 글자 색상 (은은한 회색) */
-  font-size: 1.1rem;         /* 글자 크기 */
-  letter-spacing: 1px;       /* 글자 간격 */
+  /* 중앙 정렬 유지 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  font-size: 1.1rem;
 }
 
-/* 플레이스홀더 텍스트가 있을 때의 추가 스타일 (선택사항) */
-.placeholder {
-  text-align: center;
-  font-weight: 300;
+/* 오른쪽 플레이리스트 섹션 */
+.playlist-container {
+  flex: 1;                 /* 리스트 너비 비율 */
+  min-width: 300px;        /* 너무 좁아지지 않게 최소폭 설정 */
+  max-width: 350px;
+  background: #161616;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #222;
+  position: sticky;        /* 스크롤 시 리스트 고정 효과 (선택사항) */
+  top: 20px;
+}
+
+.playlist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 70vh;        /* 화면 높이에 맞춘 리스트 스크롤 */
+  overflow-y: auto;
+}
+
+/* 모바일 반응형 (화면이 좁아지면 세로로 배치) */
+@media (max-width: 950px) {
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-section, .playlist-container {
+    width: 100%;
+    max-width: 100%;
+  }
 }
