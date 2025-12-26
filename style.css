@@ -8,12 +8,11 @@ body {
 }
 
 button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  cursor: pointer;
+  padding: 10px 20px;
+  margin: 5px;
   border: none;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
   background-color: #fff;
   color: #111;
   font-weight: bold;
@@ -22,10 +21,10 @@ button {
 #player {
   width: 100%;
   max-width: 700px;
-  aspect-ratio: 16 / 9;
-  margin: 0 auto 20px;
+  aspect-ratio: 16/9;
+  margin: 20px auto;
   background: #000;
-  border-radius: 15px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -37,20 +36,9 @@ iframe {
 
 #playlist {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   max-width: 700px;
   margin: 0 auto;
-}
-
-.playlist-item {
-  cursor: pointer;
-  padding: 8px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.playlist-item:hover {
-  background: rgba(255,255,255,0.3);
 }
