@@ -9,20 +9,29 @@
 <body>
   <h1>Admin Panel</h1>
 
-  <div class="admin-section">
-    <input type="text" id="videoUrl" placeholder="YouTube Video URL">
+  <div class="input-group">
+    <label for="videoId">YouTube Video ID:</label>
+    <input type="text" id="videoId" placeholder="ex: DMX1XCH3MsY">
+  </div>
+
+  <div class="input-group">
+    <label for="videoTitle">Video Title:</label>
     <input type="text" id="videoTitle" placeholder="Video Title">
-    <select id="genre">
+  </div>
+
+  <div class="input-group">
+    <label for="videoGenre">Genre:</label>
+    <select id="videoGenre">
       <option value="jazzy">Deep/Jazzy House</option>
       <option value="minimal">Minimal Techno</option>
     </select>
-    <button id="addVideo">Add Video</button>
   </div>
 
-  <h2>Stored Videos</h2>
-  <div id="videoList" class="grid-container"></div>
+  <button id="addVideoBtn">Add Video</button>
+  <button id="goViewerBtn">Go to Viewer</button>
 
-  <button id="goViewer" class="navBtn">Viewer Page</button>
+  <h2>Registered Videos</h2>
+  <div id="videoList"></div>
 
   <script src="admin.js"></script>
 </body>
