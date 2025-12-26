@@ -7,24 +7,27 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Viewer Page</h1>
+  <h1>Music Viewer</h1>
 
-  <div class="genre-buttons">
-    <button id="btnJazzy" class="genreBtn">Deep/Jazzy House</button>
-    <button id="btnMinimal" class="genreBtn">Minimal Techno</button>
-  </div>
+  <div class="main-container">
+    <div class="center-column">
+      <div class="genre-buttons">
+        <button id="btnJazzy" class="genreBtn">Deep/Jazzy House</button>
+        <button id="btnMinimal" class="genreBtn">Minimal Techno</button>
+      </div>
 
-  <div class="content-wrapper">
-    <!-- 중앙 플레이어 -->
-    <div id="player">
-      <div class="placeholder">Select a video to play</div>
+      <div id="player">
+        <div class="placeholder">Select a video to play</div>
+      </div>
+
+      <button id="goAdmin" class="navBtn">Admin Page</button>
     </div>
 
-    <!-- 오른쪽 재생 리스트 -->
-    <div id="playlist" class="playlist"></div>
+    <div class="playlist-section">
+      <h3>Playlist</h3>
+      <div id="playlist" class="playlist"></div>
+    </div>
   </div>
-
-  <button id="goAdmin" class="navBtn">Admin Page</button>
 
   <script src="viewer.js"></script>
 </body>
