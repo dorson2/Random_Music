@@ -6,6 +6,40 @@
   <title>Music for You</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+<script>
+    // 🔥 배경 설정 함수
+    function setRandomBackground() {
+      const seed = Math.floor(Math.random() * 100000);
+      document.body.style.backgroundImage =
+        `url('https://picsum.photos/seed/${seed}/1600/900')`;
+    }
+
+    // 초기 실행
+    window.onload = setRandomBackground;
+
+    // 🎵 유튜브 재생 함수 (에러가 나던 그 함수입니다!)
+    function playMusic(keyword) {
+      console.log("재생 키워드:", keyword); // 작동 확인용 로그
+      
+      setRandomBackground(); // 배경도 함께 변경
+
+      const query = encodeURIComponent(keyword + " music");
+      const iframeHTML = `
+        <iframe
+          src="https://www.youtube.com/embed/videoseries?listType=search&list=${query}&autoplay=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      `;
+
+      const playerDiv = document.getElementById("player");
+      if (playerDiv) {
+        playerDiv.innerHTML = iframeHTML;
+      } else {
+        console.error("player라는 ID를 가진 div를 찾을 수 없습니다.");
+      }
+    }
+  </script>
 <body>
 
   <h1>Music for you🎶</h1>
