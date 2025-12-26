@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadVideo(videoId) {
     // mute를 제거하여 클릭 시 바로 소리 나게 설정
-    playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   }
 
   async function renderPlaylist(genre) {
