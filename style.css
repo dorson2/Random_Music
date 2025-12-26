@@ -39,3 +39,7 @@ iframe {
   max-width: 700px;
   margin: 0 auto;
 }
+
+#videoList div {
+  margin: 5px 0;
+}

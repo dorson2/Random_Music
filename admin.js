@@ -68,7 +68,7 @@ addButton.addEventListener('click', () => {
 
   const genre = genreSelect.value;
   const videos = getVideos(genre);
-  videos.push({ id: videoId, title: '' }); // 제목은 ID로 표시
+  videos.push({ id: videoId, title: '' });
   saveVideos(genre, videos);
   renderList();
   videoUrlInput.value = '';
