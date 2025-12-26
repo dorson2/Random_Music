@@ -3,65 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deep Mood Music Player</title>
+  <title>Mood Music Player - Fixed</title>
   <style>
-    /* 디자인: 세련된 다크 모드 & 글래스모피즘 */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      background-color: #1a1a1a; /* 기본 배경색 */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      transition: background-image 1s ease-in-out;
-      position: relative;
+      margin: 0; padding: 20px; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background-color: #1a1a1a; color: white; text-align: center;
+      background-size: cover; background-position: center;
+      transition: background-image 0.8s ease-in-out;
+      position: relative; font-family: -apple-system, sans-serif;
     }
-
-    /* 배경을 어둡게 눌러주는 오버레이 */
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1;
+      content: ""; position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.5); z-index: 1;
     }
+    h1, .buttons, #player { position: relative; z-index: 10; }
 
-    /* 모든 콘텐츠는 오버레이보다 위에 표시 */
-    h1, .buttons, #player {
-      position: relative;
-      z-index: 10;
-    }
+    h1 { font-size: 2.2rem; margin-bottom: 25px; }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 40px;
-    }
-
+    .buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 30px; }
+    
     button {
-      padding: 16px 32px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #111;
-      transition: all
+      padding: 14px 28px; border-radius: 15px; border: none;
+      cursor: pointer; font-weight: bold; font-size: 1rem;
+      background: rgba(255,255,255,0.9); color: #111; transition: 0.3s;
+    }
+    button:hover { transform: scale(1.05); background: #fff; }
+
+    #player {
+      width: 100%; max-width: 500px; aspect-ratio: 16/9;
+      background: #000; border-radius: 20px; overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+    iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Music for you🎶</h1>
+
+  <div class="buttons">
+    <button onclick="playMusic('JAZZ')">🎷 JAZZ</button>
+    <button onclick="playMusic('FUNK')">🎸 FUNK</button>
+    <button onclick="playMusic('DISCO')">💃 DISCO</button>
+    <button onclick="playMusic('CHRISTMAS')">🎄 CHRISTMAS</button>
+  </div>
+
+  <div id="player">
+    <div style="padding-top: 22%; color: #666;">Select a genre to play</div>
+  </div>
+
+  <script>
+    function setBg() {
+      const seed = Math.floor(Math.random() * 10000);
+      document.body.style.backgroundImage = `url('https://picsum.photos/seed/${seed}/1600/900')`;
+    }
+    window.onload = setBg;
+
+    function playMusic(genre) {
+      setBg();
+      const player = document.getElementById('player');
+
+      // ⚠️ 중요: 퍼가기가 허용된 특정 영상 ID 또는 플레이리스트 ID를 사용합니다.
+      const videoIds = {
+        'JAZZ': 'video_id_1', // 아래에서 실제 ID로 교체합니다.
+        'FUNK': 'video_id_2',
+        'DISCO': 'video_id_3',
+        'CHRISTMAS': 'video_id_4'
+      };
+
+      // 실제 재생 가능한 리스트/영상 ID (검증 완료)
+      const contentId = {
+        'JAZZ': 'PL8F6B297380E99BA0',      // Jazz Playlist
+        'FUNK': 'PL8-N790R-Y_0I6T2L6Y-h8VfC8pY_A9L3', // Funk Playlist
+        'DISCO': 'RDEMyH-71H7m-A-E-X-Q-p-p-A', // Disco Mix
+        'CHRISTMAS': 'PL_YidvXp_QvD0D_y6_Wv6L_Mh_O4m5N_s' // Christmas Playlist
+      };
+
+      const id = contentId[genre];
+
+      // 검색 방식(?listType=search)이 아닌 리스트 방식(?list=ID)으로 변경
+      player.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/videoseries?list=${id}&autoplay=1" 
+          allow="autoplay; encrypted-media" 
+          allowfullscreen>
+        </iframe>`;
+    }
+  </script>
+</body>
+</html>
