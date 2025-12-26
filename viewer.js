@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadVideo(videoId) {
-    playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   }
 
   function renderPlaylist(genre) {
