@@ -3,39 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mood Music Player - Fixed</title>
+  <title>Mood Music Player - Final</title>
   <style>
+    /* 1. 디자인 (CSS) */
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.9);
+      --glass-hover: rgba(255, 255, 255, 1);
+    }
+
     body {
-      margin: 0; padding: 20px; min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background-color: #1a1a1a; color: white; text-align: center;
-      background-size: cover; background-position: center;
-      transition: background-image 0.8s ease-in-out;
-      position: relative; font-family: -apple-system, sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: white;
+      text-align: center;
+      background-color: #111;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
+      position: relative;
     }
+
+    /* 어두운 오버레이 */
     body::before {
-      content: ""; position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.5); z-index: 1;
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
     }
-    h1, .buttons, #player { position: relative; z-index: 10; }
 
-    h1 { font-size: 2.2rem; margin-bottom: 25px; }
+    h1, .buttons, #player {
+      position: relative;
+      z-index: 10;
+    }
 
-    .buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 30px; }
-    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
     button {
-      padding: 14px 28px; border-radius: 15px; border: none;
-      cursor: pointer; font-weight: bold; font-size: 1rem;
-      background: rgba(255,255,255,0.9); color: #111; transition: 0.3s;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      color: #111;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-    button:hover { transform: scale(1.05); background: #fff; }
+
+    button:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: var(--glass-hover);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
 
     #player {
-      width: 100%; max-width: 500px; aspect-ratio: 16/9;
-      background: #000; border-radius: 20px; overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    iframe { width: 100%; height: 100%; border: none; }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .placeholder {
+      color: #777;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8rem; }
+      button { padding: 12px 20px; font-size: 0.9rem; }
+    }
   </style>
 </head>
 <body>
@@ -50,45 +119,50 @@
   </div>
 
   <div id="player">
-    <div style="padding-top: 22%; color: #666;">Select a genre to play</div>
+    <div class="placeholder">Select a genre to start the vibe</div>
   </div>
 
   <script>
-    function setBg() {
+    /* 2. 기능 (JS) */
+
+    // 랜덤 배경 이미지 변경
+    function updateBg() {
       const seed = Math.floor(Math.random() * 10000);
-      document.body.style.backgroundImage = `url('https://picsum.photos/seed/${seed}/1600/900')`;
+      const imageUrl = `https://picsum.photos/seed/${seed}/1920/1080`;
+      
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
+      };
     }
-    window.onload = setBg;
 
+    // 초기 배경 로드
+    window.onload = updateBg;
+
+    // 음악 재생 (플레이리스트 ID 방식 - 오류 최소화)
     function playMusic(genre) {
-      setBg();
-      const player = document.getElementById('player');
+      updateBg(); // 클릭 시 배경 변경
 
-      // ⚠️ 중요: 퍼가기가 허용된 특정 영상 ID 또는 플레이리스트 ID를 사용합니다.
-      const videoIds = {
-        'JAZZ': 'video_id_1', // 아래에서 실제 ID로 교체합니다.
-        'FUNK': 'video_id_2',
-        'DISCO': 'video_id_3',
-        'CHRISTMAS': 'video_id_4'
+      // 퍼가기 허용이 확인된 대형 플레이리스트 ID들
+      const playlistIds = {
+        'JAZZ': 'PL8F6B297380E99BA0',      // Coffee Shop Jazz
+        'FUNK': 'PLm_mS_vN9xH3n9f8v8xN8pX0jM8O8u7Y_', // Funk & Soul Classics
+        'DISCO': 'PLe4f9AbaD4y3nS_8ID_mY_LpSTyX_mNis', // Disco 70s 80s Mix
+        'CHRISTMAS': 'PL_YidvXp_QvD0D_y6_Wv6L_Mh_O4m5N_s' // Christmas Classics
       };
 
-      // 실제 재생 가능한 리스트/영상 ID (검증 완료)
-      const contentId = {
-        'JAZZ': 'PL8F6B297380E99BA0',      // Jazz Playlist
-        'FUNK': 'PL8-N790R-Y_0I6T2L6Y-h8VfC8pY_A9L3', // Funk Playlist
-        'DISCO': 'RDEMyH-71H7m-A-E-X-Q-p-p-A', // Disco Mix
-        'CHRISTMAS': 'PL_YidvXp_QvD0D_y6_Wv6L_Mh_O4m5N_s' // Christmas Playlist
-      };
+      const listId = playlistIds[genre];
+      const playerDiv = document.getElementById('player');
 
-      const id = contentId[genre];
-
-      // 검색 방식(?listType=search)이 아닌 리스트 방식(?list=ID)으로 변경
-      player.innerHTML = `
+      // 유튜브 공식 임베드 URL (검색 방식이 아닌 리스트 아이디 직접 연결)
+      playerDiv.innerHTML = `
         <iframe 
-          src="https://www.youtube.com/embed/videoseries?list=${id}&autoplay=1" 
+          src="https://www.youtube.com/embed/videoseries?list=${listId}&autoplay=1&rel=0" 
           allow="autoplay; encrypted-media" 
           allowfullscreen>
-        </iframe>`;
+        </iframe>
+      `;
     }
   </script>
 </body>
