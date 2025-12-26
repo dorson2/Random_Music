@@ -12,6 +12,7 @@ input, select, button {
   padding: 8px 12px;
   border-radius: 6px;
   border: none;
+  cursor: pointer;
 }
 
 #player {
