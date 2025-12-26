@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Essential Mood Player</title>
+  <title>Mood Music Player - Final</title>
   <style>
-    /* 1. 디자인 (CSS) */
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.9);
+      --glass-hover: rgba(255, 255, 255, 1);
+    }
+
     body {
       margin: 0;
       padding: 20px;
@@ -14,76 +18,74 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: 'Pretendard', -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: white;
-      background-color: #000;
+      text-align: center;
+      background-color: #111;
       background-size: cover;
       background-position: center;
-      transition: background-image 1.2s ease-in-out;
+      transition: background-image 1s ease-in-out;
       position: relative;
     }
 
-    /* 배경을 어둡게 처리하여 가독성 확보 */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 1;
     }
 
-    h1, .buttons, #player-container {
+    h1, .buttons, #player {
       position: relative;
       z-index: 10;
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: 800;
-      margin-bottom: 35px;
-      letter-spacing: -1px;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      margin-bottom: 30px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
     .buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
       justify-content: center;
-      margin-bottom: 45px;
+      margin-bottom: 40px;
     }
 
     button {
-      padding: 18px 36px;
+      padding: 16px 32px;
       font-size: 1.1rem;
       font-weight: 700;
-      border: none;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.95);
-      color: #111;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      border: none;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      color: #111;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
     button:hover {
-      transform: translateY(-8px) scale(1.05);
-      background: #ffffff;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+      transform: translateY(-5px) scale(1.05);
+      background: var(--glass-hover);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     }
 
-    button:active {
-      transform: scale(0.95);
-    }
-
-    #player-container {
+    #player {
       width: 100%;
-      max-width: 680px;
+      max-width: 600px;
       aspect-ratio: 16 / 9;
       background: #000;
-      border-radius: 28px;
+      border-radius: 25px;
       overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     iframe {
@@ -93,71 +95,68 @@
     }
 
     .placeholder {
-      padding-top: 20%;
-      color: #666;
+      color: #777;
       font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8rem; }
+      button { padding: 12px 20px; font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Selected Moods🎶</h1>
+  <h1>Music for you🎶</h1>
 
   <div class="buttons">
-    <button onclick="playMusic('DEEP')">☕ Deep/Jazzy House</button>
-    <button onclick="playMusic('MINIMAL')">🌑 Minimal Techno</button>
+    <button onclick="playMusic('JAZZ')">🎷 JAZZ</button>
+    <button onclick="playMusic('FUNK')">🎸 FUNK</button>
+    <button onclick="playMusic('DISCO')">💃 DISCO</button>
+    <button onclick="playMusic('CHRISTMAS')">🎄 CHRISTMAS</button>
   </div>
 
-  <div id="player-container">
-    <div class="placeholder">Choose your vibe to start...</div>
+  <div id="player">
+    <div class="placeholder">Select a genre to start the vibe</div>
   </div>
 
   <script>
-    /* 2. 기능 (JavaScript) */
-
-    // 배경 이미지 랜덤 변경
+    // 랜덤 배경 이미지 변경
     function updateBg() {
-      const seed = Math.floor(Math.random() * 99999);
-      const url = `https://picsum.photos/seed/${seed}/1920/1080`;
-      
+      const seed = Math.floor(Math.random() * 10000);
+      const imageUrl = `https://picsum.photos/seed/${seed}/1920/1080`;
       const img = new Image();
-      img.src = url;
+      img.src = imageUrl;
       img.onload = () => {
-        document.body.style.backgroundImage = `url('${url}')`;
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
       };
     }
 
-    // 초기 로드 시 배경 설정
     window.onload = updateBg;
 
-    // 음악 재생 함수
+    // 음악 재생
     function playMusic(genre) {
-      updateBg(); // 클릭 시마다 배경 변경
-      
-      const player = document.getElementById('player-container');
-      let listId = "";
-      
-      // 요청하신 플레이리스트 ID 추출
-      if (genre === 'DEEP') {
-        listId = "PLwOTNSbCnP6tikjuYRoUWxWj9JTUelM0_"; // Deep/Jazzy House
-      } else {
-        listId = "PLwOTNSbCnP6tNK02AIed3KYt7UGcCe4T_"; // Minimal Techno
-      }
+      updateBg();
 
-      // 셔플 효과: 리스트 내의 랜덤한 위치(index)에서 시작하도록 난수 생성
-      // 플레이리스트의 대략적인 곡 수(0~30) 사이에서 랜덤 시작
-      const randomIndex = Math.floor(Math.random() * 30);
+      const playlistIds = {
+        'JAZZ': 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI',        // Coffee Jazz
+        'FUNK': 'PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj',       // Funk & Soul
+        'DISCO': 'PLMC9KNkIncKtG8zb7eJ2VJ2G5Y2S6Y38X',      // Disco 70s 80s
+        'CHRISTMAS': 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI'  // Christmas (재사용 예시)
+      };
 
-      // 유튜브 임베드 URL 구성
-      // index 파라미터를 사용해 매번 다른 곡이 먼저 나오게 합니다.
-      player.innerHTML = `
+      const listId = playlistIds[genre];
+      const playerDiv = document.getElementById('player');
+
+      playerDiv.innerHTML = `
         <iframe 
-          src="https://www.youtube.com/embed/videoseries?list=${listId}&index=${randomIndex}&autoplay=1" 
+          src="https://www.youtube.com/embed/videoseries?list=${listId}&autoplay=1&rel=0" 
           allow="autoplay; encrypted-media" 
           allowfullscreen>
         </iframe>
       `;
     }
   </script>
+
 </body>
 </html>
