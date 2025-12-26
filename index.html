@@ -16,18 +16,19 @@
       justify-content: center;
       font-family: 'Pretendard', -apple-system, sans-serif;
       color: white;
-      background-color: #111;
+      background-color: #000;
       background-size: cover;
       background-position: center;
-      transition: background-image 1s ease-in-out;
+      transition: background-image 1.2s ease-in-out;
       position: relative;
     }
 
+    /* 배경을 어둡게 처리하여 가독성 확보 */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5); /* 배경을 어둡게 하여 텍스트 강조 */
+      background: rgba(0, 0, 0, 0.55);
       z-index: 1;
     }
 
@@ -37,47 +38,52 @@
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 30px;
-      text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 35px;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.6);
     }
 
     .buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 45px;
     }
 
     button {
-      padding: 16px 28px;
-      font-size: 1rem;
-      font-weight: 600;
+      padding: 18px 36px;
+      font-size: 1.1rem;
+      font-weight: 700;
       border: none;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.95);
       color: #111;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
 
     button:hover {
-      transform: translateY(-5px);
-      background: #fff;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      transform: translateY(-8px) scale(1.05);
+      background: #ffffff;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
 
     #player-container {
       width: 100%;
-      max-width: 640px;
+      max-width: 680px;
       aspect-ratio: 16 / 9;
       background: #000;
-      border-radius: 20px;
+      border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
     }
 
     iframe {
@@ -86,33 +92,32 @@
       border: none;
     }
 
-    .info {
+    .placeholder {
       padding-top: 20%;
-      color: #777;
+      color: #666;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
 
-  <h1>Essential Mood Music🎶</h1>
+  <h1>Selected Moods🎶</h1>
 
   <div class="buttons">
-    <button onclick="playMusic(0)">🎵 Track 1</button>
-    <button onclick="playMusic(2)">🎵 Track 2</button>
-    <button onclick="playMusic(4)">🎵 Track 3</button>
-    <button onclick="playMusic(6)">🎵 Track 4</button>
+    <button onclick="playMusic('DEEP')">☕ Deep/Jazzy House</button>
+    <button onclick="playMusic('MINIMAL')">🌑 Minimal Techno</button>
   </div>
 
   <div id="player-container">
-    <div class="info">버튼을 눌러 음악을 시작하세요</div>
+    <div class="placeholder">Choose your vibe to start...</div>
   </div>
 
   <script>
-    // 2. 기능 (JavaScript)
+    /* 2. 기능 (JavaScript) */
 
-    // 랜덤 배경 이미지 변경 함수
-    function changeBg() {
-      const seed = Math.floor(Math.random() * 10000);
+    // 배경 이미지 랜덤 변경
+    function updateBg() {
+      const seed = Math.floor(Math.random() * 99999);
       const url = `https://picsum.photos/seed/${seed}/1920/1080`;
       
       const img = new Image();
@@ -122,22 +127,32 @@
       };
     }
 
-    // 페이지 로드 시 배경 초기화
-    window.onload = changeBg;
+    // 초기 로드 시 배경 설정
+    window.onload = updateBg;
 
     // 음악 재생 함수
-    function playMusic(index) {
-      changeBg(); // 클릭할 때마다 배경 변경
+    function playMusic(genre) {
+      updateBg(); // 클릭 시마다 배경 변경
       
-      // 요청하신 플레이리스트 ID
-      const playlistId = "PLwOTNSbCnP6szXsSSDaqS9fjkkmonx7G4";
-      const playerContainer = document.getElementById('player-container');
+      const player = document.getElementById('player-container');
+      let listId = "";
+      
+      // 요청하신 플레이리스트 ID 추출
+      if (genre === 'DEEP') {
+        listId = "PLwOTNSbCnP6tikjuYRoUWxWj9JTUelM0_"; // Deep/Jazzy House
+      } else {
+        listId = "PLwOTNSbCnP6tNK02AIed3KYt7UGcCe4T_"; // Minimal Techno
+      }
 
-      // 유튜브 임베드: videoseries 주소를 사용하여 플레이리스트 통째로 로드
-      // index 파라미터는 리스트 내의 몇 번째 곡부터 재생할지 결정합니다.
-      playerContainer.innerHTML = `
+      // 셔플 효과: 리스트 내의 랜덤한 위치(index)에서 시작하도록 난수 생성
+      // 플레이리스트의 대략적인 곡 수(0~30) 사이에서 랜덤 시작
+      const randomIndex = Math.floor(Math.random() * 30);
+
+      // 유튜브 임베드 URL 구성
+      // index 파라미터를 사용해 매번 다른 곡이 먼저 나오게 합니다.
+      player.innerHTML = `
         <iframe 
-          src="https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}&autoplay=1" 
+          src="https://www.youtube.com/embed/videoseries?list=${listId}&index=${randomIndex}&autoplay=1" 
           allow="autoplay; encrypted-media" 
           allowfullscreen>
         </iframe>
