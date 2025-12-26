@@ -7,15 +7,11 @@ body {
   text-align: center;
 }
 
-button {
-  padding: 10px 20px;
+input, select, button {
   margin: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fff;
-  color: #111;
-  font-weight: bold;
 }
 
 #player {

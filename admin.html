@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page - Video Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Admin Panel</h1>
+
+  <label for="genre">Genre:</label>
+  <select id="genre">
+    <option value="minimal">Minimal Techno</option>
+    <option value="jazzy">Deep/Jazzy House</option>
+  </select>
+
+  <input type="text" id="videoUrl" placeholder="YouTube video URL">
+  <button id="addVideo">Add Video</button>
+
+  <h2>Stored Videos</h2>
+  <div id="videoList"></div>
+
+  <script>
+    const genreSelect = document.getElementById('genre');
+    const videoUrlInput = document.getElementById('videoUrl');
+    const addButton = document.getElementById('addVideo');
+    const videoListDiv = document.getElementById('videoList');
+
+    // 장르별 localStorage 키
+    const STORAGE_KEYS = {
+      minimal: 'videos_minimal',
+      jazzy: 'videos_jazzy'
+    };
+
+    function getVideos(genre) {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
+    }
+
+    function saveVideos(genre, videos) {
+      localStorage.setItem(STORAGE_KEYS[genre], JSON.stringify(videos));
+    }
+
+    function renderList() {
+      const genre = genreSelect.value;
+      const videos = getVideos(genre);
+      videoListDiv.innerHTML = '';
+      videos.forEach((v, i) => {
+        const div = document.createElement('div');
+        div.textContent = v.title ? `${v.title} (${v.id})` : v.id;
+        videoListDiv.appendChild(div);
+      });
+    }
+
+    function extractVideoId(url) {
+      const match = url.match(/v=([a-zA-Z0-9_-]+)/);
+      return match ? match[1] : null;
+    }
+
+    addButton.addEventListener('click', () => {
+      const url = videoUrlInput.value.trim();
+      const videoId = extractVideoId(url);
+      if (!videoId) return alert('올바른 YouTube URL을 입력하세요');
+
+      const genre = genreSelect.value;
+      const videos = getVideos(genre);
+
+      // YouTube Data API 없이 제목은 ID로 표시
+      videos.push({ id: videoId, title: '' });
+      saveVideos(genre, videos);
+      renderList();
+      videoUrlInput.value = '';
+    });
+
+    genreSelect.addEventListener('change', renderList);
+
+    renderList();
+  </script>
+</body>
+</html>
