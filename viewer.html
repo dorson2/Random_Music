@@ -3,27 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewer Page</title>
+  <title>JINUU.DJ Music Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Music Viewer</h1>
+  <header>
+    <h1>JINUU.DJ HUB</h1>
+  </header>
 
-  <div class="main-container">
-    <div class="center-column">
+  <div class="content-wrapper">
+    <div class="video-section">
       <div class="genre-buttons">
         <button id="btnJazzy" class="genreBtn">Deep/Jazzy House</button>
         <button id="btnMinimal" class="genreBtn">Minimal Techno</button>
       </div>
 
       <div id="player">
-        <div class="placeholder">Select a video to play</div>
+        <div class="placeholder">Select a mix to play</div>
       </div>
 
-      <button id="goAdmin" class="navBtn">Admin Page</button>
+      <div class="bottom-nav">
+        <button id="goAdmin" class="navBtn">Admin</button>
+        <a href="https://www.instagram.com/jinuuu.dj/" target="_blank" class="instagram-link">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
     </div>
 
-    <div class="playlist-section">
+    <div class="playlist-container">
       <h3>Playlist</h3>
       <div id="playlist" class="playlist"></div>
     </div>

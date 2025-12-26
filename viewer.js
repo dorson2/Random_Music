@@ -1,39 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
   const STORAGE_KEYS = { jazzy: 'videos_jazzy', minimal: 'videos_minimal' };
-  const btnJazzy = document.getElementById('btnJazzy');
-  const btnMinimal = document.getElementById('btnMinimal');
   const playlistDiv = document.getElementById('playlist');
   const playerDiv = document.getElementById('player');
-  const goAdminBtn = document.getElementById('goAdmin');
-
-  let currentGenre = 'jazzy';
-
-  function getVideos(genre) {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
-  }
 
   function loadVideo(videoId) {
+    // autoplay 차단 방지를 위해 mute=1 권장
     playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   }
 
   function renderPlaylist(genre) {
-    currentGenre = genre;
-    const videos = getVideos(genre);
+    const videos = JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
     playlistDiv.innerHTML = '';
     videos.forEach((v) => {
       const btn = document.createElement('button');
-      btn.textContent = v.title || 'Untitled';
-      btn.addEventListener('click', () => loadVideo(v.id));
+      btn.textContent = v.title;
+      btn.onclick = () => loadVideo(v.id);
       playlistDiv.appendChild(btn);
     });
     if (videos[0]) loadVideo(videos[0].id);
   }
 
-  btnJazzy.addEventListener('click', () => renderPlaylist('jazzy'));
-  btnMinimal.addEventListener('click', () => renderPlaylist('minimal'));
-  renderPlaylist(currentGenre);
+  document.getElementById('btnJazzy').onclick = () => renderPlaylist('jazzy');
+  document.getElementById('btnMinimal').onclick = () => renderPlaylist('minimal');
+  document.getElementById('goAdmin').onclick = () => location.href = 'admin.html';
 
-  goAdminBtn.addEventListener('click', () => {
-    window.location.href = 'admin.html';
-  });
+  renderPlaylist('jazzy');
 });
