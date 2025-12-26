@@ -62,5 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAdminList();
   };
 
+  document.getElementById('goViewerBtn').onclick = () => {
+    location.href = 'viewer.html';
+};
+
   renderAdminList();
 });
