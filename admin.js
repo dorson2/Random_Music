@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const STORAGE_KEYS = { jazzy: 'videos_jazzy', minimal: 'videos_minimal' };
-  
+  // 형님의 Firebase 주소 기초 URL
+  const FB_BASE_URL = "https://jinuuumix-default-rtdb.europe-west1.firebasedatabase.app/videos";
+
   const videoIdInput = document.getElementById('videoId');
   const videoTitleInput = document.getElementById('videoTitle');
   const videoGenreSelect = document.getElementById('videoGenre');
@@ -8,54 +9,66 @@ document.addEventListener('DOMContentLoaded', () => {
   const addVideoBtn = document.getElementById('addVideoBtn');
   const goViewerBtn = document.getElementById('goViewerBtn');
 
-  // 영상 저장 함수
-  function addVideo() {
+  // 영상 추가 함수 (온라인 서버 POST)
+  async function addVideo() {
     const id = videoIdInput.value.trim();
     const title = videoTitleInput.value.trim();
     const genre = videoGenreSelect.value;
 
     if (!id || !title) {
-      alert("Video ID와 제목을 모두 입력하세요.");
+      alert("내용을 입력하세요.");
       return;
     }
 
-    const videos = JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
-    videos.push({ id, title });
-    localStorage.setItem(STORAGE_KEYS[genre], JSON.stringify(videos));
-
-    renderAdminList();
-    videoIdInput.value = '';
-    videoTitleInput.value = '';
-    alert("등록되었습니다!");
-  }
-
-  // 관리 리스트 출력
-  function renderAdminList() {
-    videoListDiv.innerHTML = '';
-    ['jazzy', 'minimal'].forEach(genre => {
-      const videos = JSON.parse(localStorage.getItem(STORAGE_KEYS[genre]) || '[]');
-      videos.forEach((v, index) => {
-        const btn = document.createElement('button');
-        btn.textContent = `[${genre.toUpperCase()}] ${v.title} (삭제)`;
-        btn.style.marginBottom = "5px";
-        
-        btn.onclick = () => {
-          if(confirm("이 영상을 삭제하시겠습니까?")) {
-            videos.splice(index, 1);
-            localStorage.setItem(STORAGE_KEYS[genre], JSON.stringify(videos));
-            renderAdminList();
-          }
-        };
-        videoListDiv.appendChild(btn);
+    try {
+      await fetch(`${FB_BASE_URL}/${genre}.json`, {
+        method: 'POST',
+        body: JSON.stringify({ id, title })
       });
-    });
+      alert("온라인 저장 성공!");
+      videoIdInput.value = '';
+      videoTitleInput.value = '';
+      renderAdminList();
+    } catch (e) {
+      alert("저장 실패!");
+    }
   }
 
-  // 이벤트 리스너 연결
-  addVideoBtn.addEventListener('click', addVideo);
-  goViewerBtn.addEventListener('click', () => {
-    location.href = 'viewer.html';
-  });
+  // 관리 목록 불러오기 및 삭제 기능
+  async function renderAdminList() {
+    try {
+      const response = await fetch(`${FB_BASE_URL}.json`);
+      const allData = await response.json();
+      videoListDiv.innerHTML = '';
 
+      if (allData) {
+        ['jazzy', 'minimal'].forEach(genre => {
+          if (allData[genre]) {
+            Object.keys(allData[genre]).forEach(key => {
+              const v = allData[genre][key];
+              const btn = document.createElement('button');
+              btn.textContent = `[${genre.toUpperCase()}] ${v.title} (삭제)`;
+              btn.style.width = "100%";
+              btn.style.textAlign = "left";
+              btn.style.margin = "5px 0";
+              
+              btn.onclick = async () => {
+                if (confirm("서버에서 이 영상을 영구 삭제하시겠습니까?")) {
+                  await fetch(`${FB_BASE_URL}/${genre}/${key}.json`, { method: 'DELETE' });
+                  renderAdminList();
+                }
+              };
+              videoListDiv.appendChild(btn);
+            });
+          }
+        });
+      }
+    } catch (e) {
+      console.error("로드 오류:", e);
+    }
+  }
+
+  addVideoBtn.onclick = addVideo;
+  goViewerBtn.onclick = () => location.href = 'viewer.html';
   renderAdminList();
 });
