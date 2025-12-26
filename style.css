@@ -31,7 +31,7 @@ iframe {
   border: none;
 }
 
-#playlist {
+#playlist, #videoList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -42,4 +42,13 @@ iframe {
 
 #videoList div {
   margin: 5px 0;
+}
+
+.navBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
 }

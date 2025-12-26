@@ -61,6 +61,7 @@ function renderList() {
   });
 }
 
+// 영상 등록
 addButton.addEventListener('click', () => {
   const url = videoUrlInput.value.trim();
   const videoId = extractVideoId(url);
@@ -74,4 +75,11 @@ addButton.addEventListener('click', () => {
   videoUrlInput.value = '';
 });
 
+// 장르 변경
 genreSelect.addEventListener('change', renderList);
+
+// Admin → Viewer 이동
+const goViewerBtn = document.getElementById('goViewer');
+goViewerBtn.addEventListener('click', () => {
+  window.location.href = 'viewer.html';
+});
