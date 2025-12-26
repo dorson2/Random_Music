@@ -3,123 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deep Mood Music Player</title>
+  <title>Mood Music Player</title>
   <style>
-    /* 1. 디자인 (CSS) - 세련된 글래스모피즘 스타일 */
-    :root {
-      --bg-overlay: rgba(0, 0, 0, 0.45);
-      --glass-bg: rgba(255, 255, 255, 0.15);
-      --glass-hover: rgba(255, 255, 255, 0.3);
-      --text-color: #ffffff;
-    }
-
+    /* 디자인(CSS): 레이어 간섭을 최소화하고 시각적 효과 극대화 */
     body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
       margin: 0;
       padding: 20px;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: var(--text-color);
       text-align: center;
-      
-      /* 배경 설정 */
-      background-color: #1a1a1a;
+      color: white;
+      background-color: #111;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      background-attachment: fixed;
-      transition: background-image 1s ease-in-out; /* 배경 전환을 부드럽게 */
+      transition: background-image 1s ease-in-out;
       position: relative;
-      overflow-x: hidden;
     }
 
-    /* 배경을 어둡게 눌러주는 오버레이 */
+    /* 배경을 어둡게 처리하여 텍스트 가독성 확보 */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: var(--bg-overlay);
-      z-index: -1;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1; /* 배경 레이어 */
     }
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 30px;
-      letter-spacing: -1px;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    h1, .buttons, #player {
+      position: relative;
+      z-index: 10; /* 배경보다 위로 올려서 클릭 가능하게 설정 */
     }
 
-    /* 버튼 컨테이너 */
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 40px;
-      z-index: 10; /* 클릭 가능하도록 최상단 배치 */
-    }
+    h1 { font-size: 2.5rem; margin-bottom: 25px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+
+    .buttons { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
 
     button {
-      padding: 16px 32px;
+      padding: 15px 30px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.2);
       font-size: 1rem;
-      font-weight: 600;
-      color: white;
-      background: var(--glass-bg);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
+      font-weight: bold;
       cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.9);
+      color: #111;
+      transition: 0.3s;
     }
 
-    button:hover {
-      background: var(--glass-hover);
-      transform: translateY(-5px) scale(1.05);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
+    button:hover { transform: scale(1.08); background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
 
-    button:active {
-      transform: scale(0.95);
-    }
-
-    /* 유튜브 플레이어 박스 */
     #player {
+      margin-top: 35px;
       width: 100%;
-      max-width: 560px;
+      max-width: 500px;
       aspect-ratio: 16 / 9;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 24px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      background: #000;
     }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* 초기 안내 문구 */
-    .placeholder-text {
-      opacity: 0.6;
-      font-style: italic;
-    }
-
-    /* 모바일 최적화 */
-    @media (max-width: 480px) {
-      h1 { font-size: 1.8rem; }
-      button { padding: 12px 20px; font-size: 0.9rem; }
-    }
+    iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
@@ -134,48 +84,39 @@
   </div>
 
   <div id="player">
-    <p class="placeholder-text">원하는 장르를 선택해 음악을 감상하세요.</p>
+    <div style="padding-top: 20%; color: #888;">원하는 장르를 눌러주세요</div>
   </div>
 
   <script>
-    // 2. 기능 (JavaScript)
-
-    // 랜덤 배경 설정 함수 (Picsum 이용)
-    function updateBackground() {
+    // 기능(JS): 외부 파일 없이 내부에서 즉시 실행
+    
+    // 1. 랜덤 배경 설정
+    function setRandomBackground() {
       const seed = Math.floor(Math.random() * 100000);
-      const imageUrl = `https://picsum.photos/seed/${seed}/1920/1080`;
-      
-      // 이미지 프리로딩 (이미지가 다 불러와지면 교체하여 끊김 방지)
-      const img = new Image();
-      img.src = imageUrl;
-      img.onload = () => {
-        document.body.style.backgroundImage = `url('${imageUrl}')`;
-      };
+      const bgUrl = `https://picsum.photos/seed/${seed}/1600/900`;
+      document.body.style.backgroundImage = `url('${bgUrl}')`;
     }
 
-    // 초기 배경 설정
-    window.addEventListener('DOMContentLoaded', updateBackground);
+    // 초기 로드 시 배경 설정
+    window.onload = setRandomBackground;
 
-    // 음악 재생 함수
+    // 2. 유튜브 음악 재생
     function playMusic(keyword) {
-      // 1) 배경 이미지 업데이트
-      updateBackground();
+      console.log("재생 명령 수신: " + keyword);
+      
+      // 클릭할 때마다 배경도 함께 변경
+      setRandomBackground();
 
-      // 2) 유튜브 검색 URL 생성 (listType=search는 검색 결과 자동 재생)
-      const searchQuery = encodeURIComponent(keyword + " music playlist");
-      const playerContainer = document.getElementById("player");
+      const query = encodeURIComponent(keyword + " music playlist");
+      const player = document.getElementById("player");
 
-      // 3) iframe 주입
-      // autoplay=1, mute=0(소리 켬) 설정을 포함하지만 브라우저 정책상 클릭 후 재생이 가장 안정적임
-      playerContainer.innerHTML = `
+      player.innerHTML = `
         <iframe
-          src="https://www.youtube.com/embed/videoseries?listType=search&list=${searchQuery}&autoplay=1"
+          src="https://www.youtube.com/embed/videoseries?listType=search&list=${query}&autoplay=1"
           allow="autoplay; encrypted-media"
           allowfullscreen>
         </iframe>
       `;
-
-      console.log(`${keyword} 장르 재생을 시작합니다.`);
     }
   </script>
 </body>
