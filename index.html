@@ -1,94 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mood Music Player - Random Playlist</title>
-<style>
-  :root { --glass-bg: rgba(255,255,255,0.9); --glass-hover: rgba(255,255,255,1); }
-  body { margin:0; padding:20px; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:white; text-align:center; background-color:#111; background-size:cover; background-position:center; transition:background-image 1s ease-in-out; position:relative; }
-  body::before { content:""; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1; }
-  h1,.buttons,#player { position:relative; z-index:10; }
-  h1 { font-size:2.5rem; font-weight:800; margin-bottom:30px; text-shadow:0 4px 15px rgba(0,0,0,0.5); }
-  .buttons { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:40px; }
-  button { padding:16px 32px; font-size:1.1rem; font-weight:700; cursor:pointer; border:none; border-radius:20px; background:var(--glass-bg); color:#111; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
-  button:hover { transform:translateY(-5px) scale(1.05); background:var(--glass-hover); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
-  #player { width:100%; max-width:600px; aspect-ratio:16/9; background:#000; border-radius:25px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; }
-  @media(max-width:480px){ h1{font-size:1.8rem;} button{padding:12px 20px;font-size:0.9rem;} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music Player</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Music for you🎶</h1>
+  <h1>Music for you🎶</h1>
 
-<div class="buttons">
-  <button onclick="startPlaylist('HOUSE')">🎷 Deep/Jazzy House</button>
-  <button onclick="startPlaylist('TECHNO')">🎛 Minimal Techno</button>
-</div>
+  <div class="buttons">
+    <button data-playlist="HOUSE">🎷 Deep/Jazzy House</button>
+    <button data-playlist="TECHNO">🎧 Minimal Techno</button>
+  </div>
 
-<div id="player"><div class="placeholder">Select a genre to start the vibe</div></div>
+  <div id="player">
+    <div class="placeholder">Select a genre to start the vibe</div>
+  </div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-let player;
-let currentPlaylist = [];
-let currentIndex = 0;
-
-// 플레이리스트 설정
-const playlists = {
-  'HOUSE': {
-    id: 'PLwOTNSbCnP6tikjuYRoUWxWj9JTUelM0_', // Deep/Jazzy House
-  },
-  'TECHNO': {
-    id: 'PLwOTNSbCnP6tNK02AIed3KYt7UGcCe4T_', // Minimal Techno
-  }
-};
-
-// YouTube IFrame API 로드 후 플레이어 생성
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '100%',
-    width: '100%',
-    events: { 'onStateChange': onPlayerStateChange }
-  });
-}
-
-// 영상 끝나면 다음 랜덤 영상 재생
-function onPlayerStateChange(event) {
-  if(event.data === YT.PlayerState.ENDED) {
-    currentIndex++;
-    if(currentIndex < currentPlaylist.length){
-      player.loadVideoById(currentPlaylist[currentIndex]);
-    }
-  }
-}
-
-// 버튼 클릭 시 플레이리스트 랜덤 10곡 생성 후 재생
-function startPlaylist(genre){
-  updateBg();
-
-  const playlistId = playlists[genre].id;
-
-  // YouTube Data API 없이 간단하게 index만 사용 → 10곡 랜덤
-  currentPlaylist = [];
-  for(let i=0;i<10;i++){
-    const randomIndex = Math.floor(Math.random()*20) + 1; // 총 20곡 가정
-    currentPlaylist.push(`${playlistId}&index=${randomIndex}`);
-  }
-  currentIndex = 0;
-
-  player.loadVideoById(currentPlaylist[currentIndex]);
-}
-
-// 랜덤 배경
-function updateBg() {
-  const seed = Math.floor(Math.random() * 10000);
-  const imageUrl = `https://picsum.photos/seed/${seed}/1920/1080`;
-  const img = new Image();
-  img.src = imageUrl;
-  img.onload = () => { document.body.style.backgroundImage = `url('${imageUrl}')`; }
-}
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
