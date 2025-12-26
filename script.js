@@ -1,12 +1,21 @@
-// 랜덤 배경 키워드
-const keywords = ["aesthetic", "pastel", "minimal", "texture", "trendy"];
-
+// 🔥 랜덤 배경 (GitHub Pages 안정)
 window.onload = () => {
-  const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
-  const randomSeed = Math.floor(Math.random() * 100000);
-
-  const randomBgUrl =
-    `https://source.unsplash.com/1600x900/?${randomKeyword}&sig=${randomSeed}`;
-
-  document.body.style.backgroundImage = `url('${randomBgUrl}')`;
+  const seed = Math.floor(Math.random() * 100000);
+  document.body.style.backgroundImage =
+    `url('https://picsum.photos/seed/${seed}/1600/900')`;
 };
+
+// 🎵 유튜브 검색 & 재생
+function playMusic(keyword) {
+  const query = encodeURIComponent(keyword);
+
+  const iframeHTML = `
+    <iframe
+      src="https://www.youtube.com/embed?listType=search&list=${query}&autoplay=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  document.getElementById("player").innerHTML = iframeHTML;
+}

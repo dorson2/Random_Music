@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>랜덤 감정 음악 추천기</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Music</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>오늘의 감정 음악 추천기</h1>
-  <div>
-    <button class="happy" onclick="recommendMusic('happy')">행복</button>
-    <button class="sad" onclick="recommendMusic('sad')">슬픔</button>
-    <button class="relaxed" onclick="recommendMusic('relaxed')">편안</button>
+
+  <h1>Music for you🎶</h1>
+
+  <div class="buttons">
+    <button onclick="playMusic('Jazz music')">Jazz</button>
+    <button onclick="playMusic('Funk music')">Funk</button>
+    <button onclick="playMusic('Disco music')">Disco</button>
+    <button onclick="playMusic('Christmas music')">Christmas</button>
   </div>
-  <div id="music"></div>
+
+  <div id="player"></div>
 
   <script src="script.js"></script>
 </body>
