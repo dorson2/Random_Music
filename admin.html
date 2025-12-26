@@ -10,28 +10,32 @@
   <h1>Admin Panel</h1>
 
   <div class="input-group">
-    <label for="videoId">YouTube Video ID:</label>
+    <label>YouTube Video ID:</label>
     <input type="text" id="videoId" placeholder="ex: DMX1XCH3MsY">
   </div>
 
   <div class="input-group">
-    <label for="videoTitle">Video Title:</label>
+    <label>Video Title:</label>
     <input type="text" id="videoTitle" placeholder="Video Title">
   </div>
 
   <div class="input-group">
-    <label for="videoGenre">Genre:</label>
+    <label>Genre:</label>
     <select id="videoGenre">
       <option value="jazzy">Deep/Jazzy House</option>
       <option value="minimal">Minimal Techno</option>
     </select>
   </div>
 
-  <button id="addVideoBtn">Add Video</button>
-  <button id="goViewerBtn">Go to Viewer</button>
+  <div class="admin-actions">
+    <button id="addVideoBtn" class="genreBtn">Add Video</button>
+    <button id="goViewerBtn" class="navBtn">Go to Viewer</button>
+  </div>
+
+  <hr style="border: 0.5px solid #333; margin: 30px 0;">
 
   <h2>Registered Videos</h2>
-  <div id="videoList"></div>
+  <div id="videoList" class="playlist"></div>
 
   <script src="admin.js"></script>
 </body>

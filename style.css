@@ -1,21 +1,18 @@
-/* 기본 배경 및 폰트 설정 */
 body {
   margin: 0;
   padding: 10px;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0d0d0d; /* 어두운 감성 배경 */
+  background-color: #0d0d0d;
   color: #e0e0e0;
 }
 
 header h1 {
   font-size: 1.5rem;
   letter-spacing: 2px;
-  color: #fff;
-  margin: 20px 0;
   text-align: center;
+  margin: 20px 0;
 }
 
-/* 메인 컨테이너: 가로 정렬 (영상 중앙, 리스트 오른쪽) */
 .content-wrapper {
   display: flex;
   justify-content: center;
@@ -25,37 +22,15 @@ header h1 {
   margin: 0 auto;
 }
 
-/* 영상 섹션: 중앙에 위치하도록 유연하게 설정 */
 .video-section {
   flex: 1;
   max-width: 750px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: center; /* 내부 요소들 중앙 정렬 */
+  align-items: center;
 }
 
-.genre-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.genreBtn {
-  padding: 10px 18px;
-  background: #1a1a1a;
-  color: #888;
-  border: 1px solid #333;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.genreBtn:hover {
-  background: #fff;
-  color: #000;
-}
-
-/* 플레이어: 16:9 비율 유지 */
 #player {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -67,53 +42,45 @@ header h1 {
 
 iframe { width: 100%; height: 100%; border: none; }
 
-/* 하단 버튼 및 인스타 링크 영역 */
+.genre-buttons, .admin-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.genreBtn {
+  padding: 10px 18px;
+  background: #1a1a1a;
+  color: #888;
+  border: 1px solid #333;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.genreBtn:hover { background: #fff; color: #000; }
+
 .bottom-nav {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 20px;
 }
 
-.navBtn {
-  background: transparent;
-  color: #444;
-  border: none;
-  font-size: 13px;
-  cursor: pointer;
-}
+.navBtn { background: transparent; color: #555; border: none; cursor: pointer; }
+.navBtn:hover { color: #fff; text-decoration: underline; }
 
-.navBtn:hover { color: #888; text-decoration: underline; }
+.instagram-link { font-size: 26px; color: #555; transition: 0.3s; }
+.instagram-link:hover { color: #dc2743; transform: scale(1.1); }
 
-.instagram-link {
-  font-size: 26px;
-  color: #555;
-  transition: 0.3s ease;
-}
-
-.instagram-link:hover {
-  color: #dc2743; /* 인스타 호버 포인트 컬러 */
-  transform: scale(1.1);
-}
-
-/* 오른쪽 플레이리스트 영역 */
 .playlist-container {
-  flex: 0 0 320px; /* 리스트의 너비 고정 */
+  flex: 0 0 320px;
   background: #161616;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #222;
 }
 
-.playlist {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 60vh;
-  overflow-y: auto; /* 리스트가 길어지면 스크롤 발생 */
-}
-
 .playlist button {
+  width: 100%;
   background: #222;
   color: #aaa;
   border: 1px solid #333;
@@ -121,22 +88,15 @@ iframe { width: 100%; height: 100%; border: none; }
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  transition: 0.2s;
+  margin-bottom: 8px;
 }
 
 .playlist button:hover { background: #333; color: #fff; }
 
-/* --- 모바일 반응형 디자인 (아이폰/갤럭시 최적화) --- */
+.input-group { margin: 15px 0; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+.input-group input, .input-group select { width: 100%; padding: 10px; background: #222; color: #fff; border: 1px solid #444; border-radius: 5px; box-sizing: border-box; }
+
 @media (max-width: 950px) {
-  .content-wrapper {
-    flex-direction: column; /* 세로로 쌓기 */
-    align-items: center;
-  }
-  .video-section, .playlist-container {
-    width: 100%; /* 화면 꽉 채우기 */
-    max-width: 100%;
-  }
-  .playlist {
-    max-height: 40vh; /* 모바일에서 리스트 높이 조절 */
-  }
+  .content-wrapper { flex-direction: column; align-items: center; }
+  .video-section, .playlist-container { width: 100%; }
 }
