@@ -2,40 +2,37 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
+  <title>Admin - Manage Mixes</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Admin Panel</h1>
+  <div class="admin-container">
+    <h2>Manage DJ Mixes</h2>
+    <div class="admin-input-group">
+      <input type="text" id="videoTitle" placeholder="Video Title">
+      <input type="text" id="videoId" placeholder="YouTube Video ID">
+      <select id="videoGenre">
+        <option value="jazzy">Deep/Jazzy House</option>
+        <option value="minimal">Minimal Techno</option>
+      </select>
+      <button id="addVideoBtn">Add Mix</button>
+    </div>
 
-  <div class="input-group">
-    <label>YouTube Video ID:</label>
-    <input type="text" id="videoId" placeholder="ex: DMX1XCH3MsY">
+    <div id="videoList" class="admin-list"></div>
+    <button id="goViewerBtn" style="margin-top:20px;">Back to Player</button>
   </div>
 
-  <div class="input-group">
-    <label>Video Title:</label>
-    <input type="text" id="videoTitle" placeholder="Video Title">
+  <div id="editModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <h3>Modify Video</h3>
+      <input type="text" id="editTitle" placeholder="Title">
+      <input type="text" id="editId" placeholder="YouTube ID">
+      <div class="modal-btns">
+        <button id="cancelBtn">Cancel</button>
+        <button id="saveBtn">Modify</button>
+      </div>
+    </div>
   </div>
-
-  <div class="input-group">
-    <label>Genre:</label>
-    <select id="videoGenre">
-      <option value="jazzy">Deep/Jazzy House</option>
-      <option value="minimal">Minimal Techno</option>
-    </select>
-  </div>
-
-  <div class="admin-actions">
-    <button id="addVideoBtn" class="genreBtn">Add Video</button>
-    <button id="goViewerBtn" class="navBtn">Go to Viewer</button>
-  </div>
-
-  <hr style="border: 0.5px solid #333; margin: 30px 0;">
-
-  <h2>Registered Videos</h2>
-  <div id="videoList" class="playlist"></div>
 
   <script src="admin.js"></script>
 </body>
