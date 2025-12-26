@@ -1,0 +1,67 @@
+/* 공통 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  transition: background-color 0.5s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px 24px;
+  margin: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* 버튼 색상 */
+.happy { background-color: #FFD700; color: black; }
+.sad { background-color: #1E90FF; }
+.relaxed { background-color: #98FB98; color: black; }
+
+/* 음악 영역 */
+#music {
+  margin-top: 30px;
+  width: 90%;
+  max-width: 400px;
+}
+
+#music h2 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+#music p {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+audio {
+  width: 100%;
+  outline: none;
+}
+
+/* 반응형 */
+@media (max-width: 500px) {
+  h1 { font-size: 1.5rem; }
+  button { padding: 10px 20px; font-size: 0.9rem; }
+  #music h2 { font-size: 1.2rem; }
+  #music p { font-size: 0.9rem; }
+}
