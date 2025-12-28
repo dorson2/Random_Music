@@ -7,10 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnMinimal = document.getElementById('btnMinimal');
 
   function loadVideo(videoId) {
-    playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    // controls=1 (컨트롤바 표시), rel=0 (관련영상 제한), modestbranding=0 (로고 표시하여 공간 확보)
+    playerDiv.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&controls=1&showinfo=1&modestbranding=0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+      </iframe>`;
   }
 
-  // 선택된 장르 버튼 강조 함수
   function updateActiveButton(genre) {
     btnJazzy.classList.remove('active');
     btnMinimal.classList.remove('active');
@@ -23,9 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function renderPlaylist(genre) {
-    // 버튼 하이라이트 업데이트
     updateActiveButton(genre);
-
     const response = await fetch(FB_URL);
     const allData = await response.json();
     playlistDiv.innerHTML = '';
@@ -51,6 +54,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if(prompt("Password:") === "JINWOO") location.href = 'admin.html';
   };
 
-  // 초기 접속 시 Jazzy 리스트 로드
   renderPlaylist('jazzy');
 });
