@@ -6,17 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnJazzy = document.getElementById('btnJazzy');
   const btnMinimal = document.getElementById('btnMinimal');
 
+  // 영상 로드 함수 (autoplay=0 적용)
   function loadVideo(videoId) {
-    // 모바일 컨트롤바 최적화 파라미터 적용
     playerDiv.innerHTML = `
       <iframe 
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&controls=1&showinfo=1&modestbranding=0" 
-        allow="autoplay; encrypted-media" 
+        src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=1&showinfo=1&modestbranding=0" 
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>
       </iframe>`;
   }
 
-  // 상단 장르 버튼 하이라이트 함수
+  // 상단 장르 버튼 하이라이트
   function updateActiveGenre(genre) {
     btnJazzy.classList.remove('active');
     btnMinimal.classList.remove('active');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (genre === 'minimal') btnMinimal.classList.add('active');
   }
 
-  // 플레이리스트 내부 곡 버튼 하이라이트 함수
+  // 플레이리스트 내부 곡 하이라이트 처리 (추가된 부분)
   function updateActivePlaylistItem(targetBtn) {
     const allBtns = playlistDiv.querySelectorAll('button');
     allBtns.forEach(btn => btn.classList.remove('active'));
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         btn.onclick = () => {
           loadVideo(v.id);
-          updateActivePlaylistItem(btn); // 클릭 시 하이라이트
+          updateActivePlaylistItem(btn); // 클릭 시 해당 버튼 하이라이트
         };
         
         playlistDiv.appendChild(btn);
 
-        // 첫 번째 곡 자동 재생 및 하이라이트 설정
+        // 처음 로딩 시 첫 곡에 하이라이트 표시 (재생은 안 함)
         if (index === 0) {
           loadVideo(v.id);
           btn.classList.add('active');
